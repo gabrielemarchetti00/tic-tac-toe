@@ -14,8 +14,15 @@ const player = (name, mark) => {
 };
 
 const gameController = (() => {
-    const playerOne = player('Player one', 'x');
-    const playerTwo = player('Player two', 'o');
+    const playerOne = player('', 'x');
+    const playerTwo = player('', 'o');
+
+    const btn = document.querySelector('button');
+    btn.addEventListener('click', () => {
+        playerOne.name = prompt('Insert player one name: ');
+        playerTwo.name = prompt('Insert player two name: ');
+        displayController.updateScreen();
+    });
 
     let activePlayer = playerOne;
     const getActivePlayer = () => activePlayer;
@@ -108,5 +115,5 @@ const displayController = (() => {
         });
     });
 
-    updateScreen();
+    return{updateScreen}
 })();
