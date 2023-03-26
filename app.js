@@ -1,20 +1,19 @@
 const gameBoard = (() => {
-    let board = ['', 'x', 'o', 'x', 'o', '', '', 'x', ''];
+    let board = [];
     const getBoard = () => board;
 
-    const placeSymbol = (cell, player) => {
-        board[cell] = player.symbol;
+    const addMark = (cell, player) => {
+        board[cell] = player.mark;
     };
 
-    return {getBoard, placeSymbol};
+    return {getBoard, addMark};
 })();
 
-const player = (name, symbol) => {
-    return {name, symbol};
+const player = (name, mark) => {
+    return {name, mark};
 };
 
 const gameController = (() => {
-    const board = gameBoard.getBoard();
     const playerOne = player('Player one', 'x');
     const playerTwo = player('Player two', 'o')
 
@@ -26,12 +25,11 @@ const gameController = (() => {
     };
 
     const playRound = (cell) => {
-        gameBoard.placeSymbol(cell, getActivePlayer());
+        gameBoard.addMark(cell, getActivePlayer());
+        switchPlayerTurn();
     };
 
-    switchPlayerTurn();
-
-    return {playRound, getActivePlayer, getBoard: board.getBoard};
+    return {playRound, getActivePlayer};
 })();
 
 
@@ -59,7 +57,11 @@ const displayController = (() => {
         updateScreen();
     };
     tds.forEach((td) => {
-        td.addEventListener('click', clickHandlerBoard(td.id));
+        td.addEventListener('click', () => {
+            if(td.textContent == ''){
+                clickHandlerBoard(td.id);
+            }
+        });
     });
 
     updateScreen();
