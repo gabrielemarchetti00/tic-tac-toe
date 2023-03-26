@@ -1,5 +1,5 @@
 const gameBoard = (() => {
-    let board = [];
+    let board = ['','','','','','','','',''];
     const getBoard = () => board;
 
     const addMark = (cell, player) => {
@@ -15,7 +15,7 @@ const player = (name, mark) => {
 
 const gameController = (() => {
     const playerOne = player('Player one', 'x');
-    const playerTwo = player('Player two', 'o')
+    const playerTwo = player('Player two', 'o');
 
     let activePlayer = playerOne;
     const getActivePlayer = () => activePlayer;
@@ -29,7 +29,49 @@ const gameController = (() => {
         switchPlayerTurn();
     };
 
-    return {playRound, getActivePlayer};
+    let winner;
+    const checkWin = (board) => {
+        if(
+           (board[0] == 'x' && board[1] == 'x' && board[2] == 'x') ||
+           (board[3] == 'x' && board[4] == 'x' && board[5] == 'x') ||
+           (board[6] == 'x' && board[7] == 'x' && board[8] == 'x') ||
+           (board[0] == 'x' && board[3] == 'x' && board[6] == 'x') ||
+           (board[1] == 'x' && board[4] == 'x' && board[7] == 'x') ||
+           (board[2] == 'x' && board[5] == 'x' && board[8] == 'x') ||
+           (board[0] == 'x' && board[4] == 'x' && board[8] == 'x') ||
+           (board[2] == 'x' && board[4] == 'x' && board[6] == 'x')
+        ){
+            winner = playerOne;
+            console.log(winner.name);
+        }
+        else if(
+            (board[0] == 'o' && board[1] == 'o' && board[2] == 'o') ||
+            (board[3] == 'o' && board[4] == 'o' && board[5] == 'o') ||
+            (board[6] == 'o' && board[7] == 'o' && board[8] == 'o') ||
+            (board[0] == 'o' && board[3] == 'o' && board[6] == 'o') ||
+            (board[1] == 'o' && board[4] == 'o' && board[7] == 'o') ||
+            (board[2] == 'o' && board[5] == 'o' && board[8] == 'o') ||
+            (board[0] == 'o' && board[4] == 'o' && board[8] == 'o') ||
+            (board[2] == 'o' && board[4] == 'o' && board[6] == 'o')
+        ){
+            winner = playerTwo;
+            console.log(winner.name);
+        }
+    }
+
+    const checkTie = (board) => {
+        let tie = true;
+        for(i in board){
+            if(board[i] == ''){
+                tie = false;
+            }
+        }
+        if(tie){
+            console.log('Tie');
+        }
+    }
+
+    return {playRound, getActivePlayer, checkWin, checkTie};
 })();
 
 
@@ -54,6 +96,8 @@ const displayController = (() => {
 
     function clickHandlerBoard(id){
         gameController.playRound(id);
+        gameController.checkWin(gameBoard.getBoard());
+        gameController.checkTie(gameBoard.getBoard());
         updateScreen();
     };
     tds.forEach((td) => {
