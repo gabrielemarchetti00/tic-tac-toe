@@ -23,7 +23,6 @@ const gameController = (() => {
     let play = true;
     btn.addEventListener('click', () => {
         if(play){
-            console.log(play);
             playerOne.name = prompt('Insert player one name: ');
             playerTwo.name = prompt('Insert player two name: ');
             displayController.updateScreen();
@@ -33,7 +32,6 @@ const gameController = (() => {
             play = false;
         }
         else{
-            console.log(play);
             let board = gameBoard.getBoard();
             for(i in board){
                 board[i] = '';
