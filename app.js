@@ -16,12 +16,31 @@ const player = (name, mark) => {
 const gameController = (() => {
     const playerOne = player('', 'x');
     const playerTwo = player('', 'o');
+    const win = document.querySelector('.win');
 
     const btn = document.querySelector('button');
+    const b = document.querySelector('.board');
+    let play = true;
     btn.addEventListener('click', () => {
-        playerOne.name = prompt('Insert player one name: ');
-        playerTwo.name = prompt('Insert player two name: ');
-        displayController.updateScreen();
+        if(play){
+            console.log(play);
+            playerOne.name = prompt('Insert player one name: ');
+            playerTwo.name = prompt('Insert player two name: ');
+            displayController.updateScreen();
+            b.style.display = 'block';
+            btn.textContent = 'Restart';
+            btn.style.backgroundColor = 'green'; 
+            play = false;
+        }
+        else{
+            console.log(play);
+            let board = gameBoard.getBoard();
+            for(i in board){
+                board[i] = '';
+            }
+            displayController.updateScreen();
+            win.textContent = '';
+        }
     });
 
     let activePlayer = playerOne;
@@ -49,7 +68,7 @@ const gameController = (() => {
            (board[2] == 'x' && board[4] == 'x' && board[6] == 'x')
         ){
             winner = playerOne;
-            console.log(winner.name);
+            win.textContent = `The winner is ${winner.name}!`;
         }
         else if(
             (board[0] == 'o' && board[1] == 'o' && board[2] == 'o') ||
@@ -62,7 +81,7 @@ const gameController = (() => {
             (board[2] == 'o' && board[4] == 'o' && board[6] == 'o')
         ){
             winner = playerTwo;
-            console.log(winner.name);
+            win.textContent = `The winner is ${winner.name}!`;
         }
     }
 
@@ -74,7 +93,7 @@ const gameController = (() => {
             }
         }
         if(tie){
-            console.log('Tie');
+            win.textContent = 'It\' a Tie!';
         }
     }
 
